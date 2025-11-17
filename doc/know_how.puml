@@ -1,0 +1,51 @@
+@startuml
+title MNIST Training Process
+
+start
+
+partition "数据准备" {
+    :设置超参数\n(n_epochs=3, learning_rate=0.01等);
+    :加载MNIST训练数据集\n并应用归一化处理;
+    :加载MNIST测试数据集\n并应用归一化处理;
+    :创建训练和测试DataLoader;
+}
+
+partition "模型定义" {
+    :定义Net类\n继承自nn.Module;
+    :初始化网络层:\n- 3个卷积层\n- 2个全连接层\n- Dropout层;
+}
+
+:创建网络实例network;
+:创建SGD优化器\n(learning_rate=0.01, momentum=0.5);
+:初始化训练和测试损失记录列表;
+
+partition "预训练阶段" {
+    :调用train(1)\n进行第一轮训练;
+    :调用test()\n评估初始模型性能;
+}
+
+partition "主要训练阶段" {
+    repeat
+        :调用train(epoch)\n进行训练;
+        :调用test()\n评估模型性能;
+        :epoch = epoch + 1;
+    repeat while (epoch <= n_epochs)
+}
+
+partition "模型加载与继续训练" {
+    :创建continued_network\n和continued_optimizer;
+    :加载之前保存的\n模型和优化器状态;
+    
+    repeat
+        :调用train(i)\n继续训练;
+        :调用test()\n评估模型性能;
+        :i = i + 1;
+    repeat while (i < 9)
+}
+
+:计算总训练时间;
+:结束;
+
+stop
+
+@enduml
