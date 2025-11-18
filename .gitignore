@@ -1,3 +1,5 @@
 kaggle.json
 *.zip
 data/** 
+wandb/** 
+*.onnx
