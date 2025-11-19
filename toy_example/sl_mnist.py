@@ -35,10 +35,9 @@ def prepare_dataset():
         print("sign-language-mnist dataset is ready!")
     else:
         # Downloading the dataset directly from kaggle
-        os.system('kaggle datasets download sign-language-mnist')
+        os.system('kaggle datasets download datamunge/sign-language-mnist')
 
         # Unzipping the data
-        os.makedirs(data_dir, exist_ok=True)
         os.system('unzip sign-language-mnist.zip -d data/sign-language-mnist')
 
     train_set = pd.read_csv('data/sign-language-mnist/sign_mnist_train.csv')
